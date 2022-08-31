@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="examplePage.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title></title>
+</head>
+<body>
+<div class="options">
+    <header>
+        <nav>
+            <div class="header-title-text">
+                <h1 class="header-title-text">ARROW</h1>
+            </div>
+            <div class="menu" id="menu">
+                <ul>
+                    <li class="list" onclick="openForm()">New Arrow</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="allArrows">All</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="family-arrow" value="family">Family</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="friends-arrow" value="friends">Friends</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="colleagues-arrow" value="colleagues">Colleagues</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="starred-arrow" value="starred">AllStars</li>
+                    <li class="list" onclick="openAllMessagesForm()" id="sent-arrow" value="sent">Sent</li>
+                </ul>
+            </div>
+            <img src="css/resources/logo.png" alt="logo"/>
+        </nav>
+    </header>
+</div>
+<div class="center">
+    <p>Welcome to Arrow,</p>
+    <p class="text">The simplest way to remember important dates.</p>
+</div>
+</body>
+<div class="container">
+    <div class="form-popup" id="createArrowForm">
+        <h2>New Arrow</h2>
+        <form class="form-container" id="create-arrow-form">
+            <p class="form-field">
+                <input hidden id="messageId" name="messageId" value="">
+                <label class="list1" for="recipientName">Send Arrow To: </label>
+                <br>
+                <input class="list1"  type="text" id="recipientName" name="recipientName" placeholder="Name" required>
+                <br>
+                <label class="list1" for="phone">Phone:</label>
+                <input class="list1" type="phone" id="phone" name="phone" placeholder="000-000-0000" required>
+                <label class="list1" for="category">Relationship:</label>
+                <select class="list1" id="category" name="category" required>
+                    <option class="list1" value="colleagues">Colleague</option>
+                    <option class="list1" value="friends">Friend</option>
+                    <option class="list1" value="family">Family</option>
+                </select>
+                <br> <br>
+                <label class="list1" for="sendDate">Date To Send:</label>
+                <input class="list1" type="date" id="sendDate" name="sendDate" placeholder="send date" required>
+                <label class="list1" for="content">Message:</label>
+                <textarea rows="5" cols="30" id="content" placeholder="Your message here...." required></textarea>
+                <input class="list1" type="checkbox" id="starred" name="starred">
+                <label class="list1" for="starred">Star this Arrow</label>
+            </p>
+            <button type="submit" class="btn" id="create-arrow">Create Arrow</button>
+            <button type="button" class="btn" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+</div>
+<div class="container" id="tableContainer">
+    <div class="form-popup" id="allMessagesForm">
+        <h2>Arrows </h2>
+        <div class="filterDiv">
+            <input type="text" id="filterInput" onkeyup="filterFunction()" placeholder="Filter by Name">
+        </div>
+        <table id="myTable" class="myTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(1)">Recipient: </th>
+                <th onclick="sortTable(2)">Phone Number: </th>
+                <th onclick="sortTable(3)">Category:</th>
+                <th onclick="sortTable(4)">Date To Send: </th>
+                <th onclick="sortTable(5)">Message: </th>
+                <th onclick="sortTable(6)">Starred: </th>
+            </tr>
+            </thead>
+            <tbody id="allMessagesToAdd">
+            </tbody>
+        </table>
+        <button id="formCloseBtn" type="button" class="btn" onclick="closeAllMessagesForm()">Close</button>
+    </div>
+</div>
+<div class="container">
+    <div class="form-popup" id="updateArrowForm">
+        <h2>Update Arrow</h2>
+        <form class="form-container" id="update-arrow-form">
+            <p class="form-field">
+                <label for="updateMessageId"></label><input hidden id="updateMessageId" name="messageId" value="">
+                <label class="list1" for="recipientName">Send Arrow To:</label>
+                <br>
+                <label for="updateRecipientName"></label><input class="list1" type="text" id="updateRecipientName" name="recipientName" placeholder="Name" required>
+                <br>
+                <label class="list1" for="phone">Phone:</label>
+                <label for="updatePhone"></label><input class="list1" type="phone" id="updatePhone" name="phone" placeholder="000-000-0000" required>
+                <label class="list1" for="category">Relationship:</label>
+                <label for="updateCategory"></label><select class="list1" id="updateCategory" name="category" required>
+                <option class="list1" value="colleagues">Colleague</option>
+                <option class="list1" value="friends">Friend</option>
+                <option class="list1" value="family">Family</option>
+            </select>
+                <br> <br>
+                <label class="list1" for="sendDate">Date To Send:</label>
+                <label for="updateSendDate"></label><input class="list1" type="date" id="updateSendDate" name="sendDate" placeholder="send date" required>
+                <label class="list1" for="content">Message: </label>
+                <textarea rows="5" cols="30" id="updateContent" placeholder="Your message here...." required></textarea>
+                <br><br>
+                <label for="updateStarred"></label>
+                <input class="list1" type="checkbox" id="updateStarred" name="starred" value="starred">
+                <label class="list1" for="starred">Star this Arrow</label>
+            </p>
+            <button type="submit" class="btn" id="update-create-arrow">Update Arrow</button>
+            <button type="button" class="btn" id="delete-arrow"> Delete Arrow</button>
+            <button type="button" class="btn" onclick="closeUpdateMessageForm()">Close</button>
+        </form>
+    </div>
+    <div id="blur" ></div>
+</div>
+<script>
+    document.getElementById("content").style.height="200px";
+    document.getElementById("content").style.fontSize="14pt";
+
+    let popup = document.getElementById("createArrowForm");
+
+    let popupArrowForm = document.getElementById("allMessagesForm");
+
+    let popupUpdateArrowForm = document.getElementById("updateArrowForm");
+
+    function openUpdateMessageForm(r) {
+        document.getElementById("blur").style.visibility = "visible";
+
+        document.getElementById("update-arrow-form").reset();
+
+        const i = r.parentNode.parentNode.rowIndex;
+
+        const row = document.getElementById('myTable').rows[i].cells;
+
+        localStorage.setItem('messageToDelete', row[0].innerHTML);
+
+        document.getElementById("updateMessageId").value = row[0].innerHTML;
+        document.getElementById("updateRecipientName").value = row[1].innerHTML;
+        document.getElementById("updatePhone").value = row[2].innerHTML;
+        document.getElementById("updateCategory").value = row[3].innerHTML;
+        document.getElementById("updateSendDate").value = row[4].innerHTML;
+        document.getElementById("updateContent").value = row[5].innerHTML;
+        document.getElementById("updateStarred").value = row[6].innerHTML;
+
+        popup.classList.remove("open-form-popup");
+        popupUpdateArrowForm.classList.add("open-form-popup");
+        popupArrowForm.classList.remove("open-form-popup");
+    }
+    function closeUpdateMessageForm() {
+        popupUpdateArrowForm.classList.remove("open-form-popup");
+        document.getElementById("blur").style.visibility = "hidden";
+    }
+
+    function openAllMessagesForm() {
+        popup.classList.remove("open-form-popup");
+        popupArrowForm.classList.add("open-form-popup");
+        document.getElementById("blur").style.visibility = "visible";
+        document.getElementById("create-arrow-form").reset();
+    }
+    function closeAllMessagesForm() {
+        popupArrowForm.classList.remove("open-form-popup");
+        document.getElementById("create-arrow-form").reset();
+        document.getElementById("blur").style.visibility = "hidden";
+    }
+    function openForm() {
+        popup.classList.add("open-form-popup");
+        popupArrowForm.classList.remove("open-form-popup");
+        popupUpdateArrowForm.classList.remove("open-form-popup");
+        document.getElementById("blur").style.visibility = "visible";
+        document.getElementById("create-arrow-form").reset();
+    }
+    function closeForm() {
+        popup.classList.remove("open-form-popup");
+        popupArrowForm.classList.remove("open-form-popup");
+        document.getElementById("create-arrow-form").reset();
+        document.getElementById("blur").style.visibility = "hidden";
+    }
+    function sortTable(n) {
+  var table,
+    rows,
+    switching,
+    i,
+    x,
+    y,
+    shouldSwitch,
+    dir,
+    switchCount = 0;
+
+  table = document.getElementById("myTable");
+  switching = true;
+
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < rows.length - 1; i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[n];
+      y = rows[i + 1].getElementsByTagName("td")[n];
+
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchCount++;
+    } else {
+      if (switchCount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+    function filterFunction() {
+        let input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("filterInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+</html>
